@@ -1,0 +1,64 @@
+{%extends 'main/base.html'%}
+
+{%block title%}
+Receipts
+{%endblock%}
+
+
+{%block content%}
+{% if user.is_authenticated %}
+{%if user.is_patient%}
+<div class="container-fluid text-white">
+    <a href="{% url 'UsersAuth:profile' user.id%}">
+        <h2>Patient</h2><br>
+        <h2>{{user.first_name}}</h2>
+        <p>{{user.last_name}}</p>
+    </a>
+    <div class="container">
+        <div class="row justify-content-md-center">
+            {%for el in receipts%}
+            <div class="col mx-3 alert alert-primary" role="alert">
+                <a href="{% url 'main:detail' el.id %}">
+                    <h5>Receipt title: {{el.title}}</h5>
+                    <h6>Doctor: {{el.author}}</h6>
+                    <h6>Patient: {{el.patient}}</h6>
+                </a>
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+{%endif%}
+    {%if user.is_doctor%}
+    <div class="container-fluid text-white">
+        <a href="{% url 'UsersAuth:profile' user.id%}">
+            <h2>Doctor</h2><br>
+            <h2>{{user.first_name}}</h2>
+            <p>{{user.last_name}}</p>
+        </a>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                {%for el in users%}
+                    {%if el.is_patient%}
+                <div class="col mx-3 alert alert-primary" role="alert">
+                    <a href="{% url 'UsersAuth:profile' el.id %}">
+                        <h4>Patient: {{el.health_id}}</h4>
+                        <h5>First name: {{el.first_name}}</h5>
+                        <h5>Last name: {{el.last_name}}</h5>
+                        <h6>username: {{el.username}}</h6>
+                    </a>
+                </div>
+                {%endif%}
+                {%endfor%}
+            </div>
+        </div>
+    <div class="d-flex vw-30 vh-20 justify-content-center"><a class="btn btn-outline-primary"
+            href="{% url 'main:create' %}">Add new receipt</a>
+    </div>
+    {%endif%}
+</div>
+{% else %}
+<p class='text-danger'>You are not logged in</p>
+<p class='text-primary'><a href="{% url 'UsersAuth:login' %}">Log In</a> Or
+    <a href="{% url 'UsersAuth:register' %}">Sign Up</a></p>
+{% endif %}
+{%endblock%}

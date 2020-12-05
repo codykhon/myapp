@@ -1,0 +1,31 @@
+{%extends 'main/base.html'%}
+
+{%block title%}
+Create page
+{%endblock%}
+
+
+{%block content%}
+<div class="text-light container-fluid">
+  <h2>Create</h2>
+  <form method="post">
+    {%csrf_token%}
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Receipt Title</span>
+      </div>
+      {{ form.title}}<br>
+    </div>
+    <div class="input-group input-group-sm mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-sm">Choose a Patient</span>
+        {{form.patient}}<br>
+      </div>
+    </div>
+    <br>
+    <button type="submit" class="btn btn-success">Add</button>
+    <span>{{error}}</span>
+  </form>
+</div>
+
+{%endblock%}

@@ -1,0 +1,85 @@
+{%extends 'main/base.html'%}
+
+{%block title%}
+{{ receipt.title }}
+{%endblock%}
+
+
+
+{%block content%}
+<div class="container-fluid tex-light text-white">
+    <h2>{{ receipt.title }}</h2>
+    <p>{{ receipt.author }}</p>
+    {%if user.is_doctor%}
+    <form action="{% url 'main:delete' receipt.id%}" method="post">
+        {% csrf_token %}
+        <button type="submit" class='btn btn-danger'>Delete</button>
+    </form>
+    {%endif%}
+    <hr>
+    {%if ingredients%}
+    <table class="table table-dark">
+        <thead>
+            <tr>
+                <th scope="col">Ingredient Name</th>
+                <th scope="col">Strength</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Comment</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for el in ingredients%}
+            <tr>
+                <td>{{el.ingredient}}</td>
+                <td>{{el.strength}}</td>
+                <td>{{el.amount}}</td>
+                <td>{{el.comments}}</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+    {%else%}
+    <p>Ingredients not added yet</p>
+    {%endif%}
+    {%if user.is_doctor%}
+    <h2 class="text-light">Add ingredient</h2><br>
+    <div class="container-fluid text-light d-inline-flex p-2 bd-highlight">
+        <div class="container">
+            <form action="{%url 'main:add_ingredient' receipt.id %}" method="POST">
+                {%csrf_token%}
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Ingredient</span>
+                    </div>
+                    <input type="text" required placeholder="Ingredient name" name="ingredient">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Strength</span>
+                    </div>
+                    <input type="text" required placeholder="Strength" name="strength">
+                </div>
+                <div class="input-group input-group-sm mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="inputGroup-sizing-sm">Amount</span>
+                    </div>
+                    <input type="number" required min="1" max="100" value="1" step="1" name="amount"><br>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">With textarea</span>
+                    </div>
+                    <textarea name="comments" required="" placeholder="Comments" cols="50" rows="3"></textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-success text-light">Add</button>
+            </form>
+        </div>
+        <span>{{error}}</span>
+    </div>
+    {%endif%}
+
+    <hr>
+
+</div>
+{%endblock%}

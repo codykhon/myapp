@@ -1,0 +1,33 @@
+{%extends 'UsersAuth/base.html'%}
+{%block title%}
+Login
+{%endblock%}
+
+{%block content%}
+<div class="container d-flex justify-content-center  col-3">
+    <form method="post">
+        {%csrf_token%}
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Login</span>
+              {{form.username}}
+            </div>
+
+        </div>
+        <div class="input-group input-group-sm mb-3">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm">Password</span>
+              {{form.password}}
+            </div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-success w-800">Sign In</button>
+        <span>{{error}}</span>
+    </form>
+</div>
+<div class='container col-3'>
+<br>
+    <p class = 'text-white'>Doesn't have an account yet?</p>
+    <a href="{% url 'UsersAuth:register' %}">Register</a>
+</div>
+{%endblock%}

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{%block title%}{%endblock%}</title>
+  <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  {%block head%}{%endblock%}
+</head>
+
+<body class="bg-dark tex-light">
+
+  <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 border-bottom shadow-sm">
+    <h5 class="my-0 mr-md-auto font-weight-normal text-white">Health Record</h5>
+    <nav class="my-2 my-md-0 mr-md-3">
+      <a class="p-2 " href="{% url 'main:home' %}">Main</a>
+      <a class="p-2 " href="{% url 'main:about' %}">About</a>
+    </nav>
+    {%if user.is_authenticated%}
+    <form action="{%url 'UsersAuth:logout'%}" method='POST'>
+      {%csrf_token%}
+      <button class="btn btn-outline-primary" type='submit'">Log Out</button>
+        </form>
+        {%else%}
+          <a class=" btn btn-outline-primary" href="{%url 'UsersAuth:register'%}">Sign up</a>
+        {%endif%}
+
+  </div>
+  <div class="cover-container d-flex h-100 p-3 mx-auto flex-column a justify-content-center">
+    {%block content%}
+    {%endblock%}
+  </div>
+</body>
+
+</html>

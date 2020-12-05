@@ -1,0 +1,49 @@
+{%extends 'UsersAuth/base.html'%}
+
+
+{%block title%}
+{{user.first_name}}'s info
+{%endblock%}
+
+{%block content%}
+{%if user.is_authenticated %}
+<div class="row">
+    <div class="col-md-6 mb-4">
+
+        <img class="rounded-circle z-depth-2" alt="100x100" src="{{request.user.profile_pic.url}}"
+            data-holder-rendered="true" width="400" height="400">
+
+    </div>
+    <div class="container text-white col-md-6 mb-4">
+        <h4 class='text-uppercase'>Username: {{user.username}}</h4><br>
+        <h4 class='text-uppercase'>First name: {{user.first_name}}</h4><br>
+        <h4 class='text-uppercase'>Last name: {{user.last_name}}</h4><br>
+        <h4 class='text-uppercase'>Email: {{user.email}}</h4><br>
+        <h4 class='text-uppercase'>Birthday: {{user.birth}}</h4><br>
+        <h4 class='text-uppercase'>Health ID: {{user.health_id}}</h4><br>
+        <h4 class='text-uppercase'>Phone: {{user.phone}}</h4><br>
+
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-md-center">
+        {%for el in receipts%}
+        <div class=" mw-25 col mx-3 alert alert-primary p-3" role="alert">
+            <a href="{% url 'main:detail' el.id %}">
+                <h5>Receipt title: {{el.title}}</h5>
+                <h6>Doctor: {{el.author}}</h6>
+                <h6>Patient: {{el.patient}}</h6>
+            </a>
+        </div>
+        {%endfor%}
+    </div>
+    {%if user.is_doctor%}
+    <div class="d-flex vw-30 vh-20 justify-content-center"><a class="btn btn-outline-primary"
+        href="{% url 'main:create'%}">Add new receipt</a>
+    {%endif%}
+    </div>
+</div>
+
+{%endif%}
+
+{%endblock%}
